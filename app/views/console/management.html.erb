@@ -1,0 +1,29 @@
+<div>
+  <b>Management</b>
+</div>
+
+<div>
+  <% if request.path == channels_path %>
+    <span class="active">Channels</span> |
+  <% else %>
+    <%= link_to 'Channels', channels_path, data: { turbo: true } %> |
+  <% end %>
+
+  <% if request.path == servers_path %>
+    <span class="active">Servers</span> |
+  <% else %>
+    <%= link_to 'Servers', servers_path, data: { turbo: true } %> |
+  <% end %>
+
+  <% if request.path == commands_path %>
+    <span class="active">Commands</span> |
+  <% else %>
+    <%= link_to 'Commands', commands_path, data: { turbo: true } %> |
+  <% end %>
+
+  <% if request.path == licences_path %>
+    <span class="active">Licences</span>
+  <% else %>
+    <%= link_to 'Licences', licences_path, data: { turbo: true } %>
+  <% end %>
+</div>

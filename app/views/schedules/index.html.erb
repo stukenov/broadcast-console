@@ -1,0 +1,10 @@
+<div><b>Schedules</b></div>
+
+<div>
+<b>Select Channel</b>
+</div>
+<div>
+<% @channels.each do |channel| %>
+    <%= link_to channel.name, channel_schedules_path(channel.id) %>
+<% end %>
+</div>

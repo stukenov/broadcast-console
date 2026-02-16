@@ -1,0 +1,16 @@
+
+<div><b><%= @server.name %> Overview</b></div>
+
+<div>
+    <%= link_to "Back", servers_path %> | 
+    <%= link_to "Overview", server_path(@server) %> | 
+    <%= link_to "Commands", server_commands_path(@server) %>
+</div>
+
+
+
+<div>
+    <p>Name: <%= @server.name %></p>
+    <p>Licence: <%= link_to @licence.key, licence_path(@licence) %></p>
+</div>
+

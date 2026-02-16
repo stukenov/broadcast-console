@@ -1,0 +1,2 @@
+class Licence < ApplicationRecord
+end

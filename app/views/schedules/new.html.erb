@@ -1,0 +1,17 @@
+<div><b>New Schedule Item for <%= @channel.name %></b></div>
+
+<div>
+<%= form_with model: @schedule do |form| %>
+    <div>
+        <%= form.label :name %>
+        <%= form.text_field :name %>
+    </div>
+    <div>
+        <%= form.label :start_time %>
+        <%= form.time_field :start_time %>
+    </div>
+    <div>
+        <%= form.submit %>
+    </div>
+<% end %>
+</div>

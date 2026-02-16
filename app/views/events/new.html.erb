@@ -1,0 +1,27 @@
+<div><b>New Event</b></div>
+
+<div><%= link_to 'Back', channel_events_path(@channel) %></div>
+
+<div>
+    <%= form_with model: @event do |form| %>
+        <div>
+            <%= form.label :name %>
+            <%= form.text_field :name %>
+        </div>
+        <div>
+            <%= form.label :start_time %>
+            <%= form.datetime_field :start_time %>
+        </div>
+        <div>
+            <%= form.label :videos_id, "Select Video" %>
+            <%= form.collection_select :videos_id, Video.all, :id, :title, prompt: "Choose a video" %>
+        </div>
+        <div>
+            <%= form.label :channel_id, "Select Channel" %>
+            <%= form.collection_select :channel_id, Channel.all, :id, :name, prompt: "Choose a channel" %>
+        </div>
+        <div>
+            <%= form.submit %>
+        </div>
+    <% end %>
+</div>

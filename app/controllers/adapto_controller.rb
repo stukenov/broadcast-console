@@ -1,0 +1,2 @@
+class AdaptoController < ApplicationController
+end

@@ -1,0 +1,37 @@
+<div>
+  <b>Channels</b>
+</div>
+
+<div>
+  <%= link_to 'New Channel', new_channel_path, data: { turbo: true } %>
+</div>
+
+<% flash.each do |key, message| %>
+  <div>
+    <i><%= message %></i>
+  </div>
+<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @channels.any? %>
+      <% @channels.each do |channel| %>
+        <tr>
+          <td><%= link_to channel.name, channel_path(channel), data: { turbo: true } %> <%= link_to '(edit)', edit_channel_path(channel), data: { turbo: true } %></td>
+          <td>
+            <%= button_to 'x', channel_path(channel), method: :delete, data: { turbo: true, confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2">No channels found</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

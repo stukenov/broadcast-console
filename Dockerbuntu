@@ -1,0 +1,70 @@
+# Базовый образ Ubuntu
+FROM ubuntu
+
+# Обновляем и устанавливаем зависимости
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-standard
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg
+RUN gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+ENV RUBY_VERSION=3.2.3
+ENV RAILS_VERSION=7.1.4
+RUN curl -sSL https://get.rvm.io | bash
+
+RUN apt-get install -y nodejs
+RUN apt-get install -y yarn
+RUN apt-get install -y build-essential
+RUN apt-get install -y libpq-dev
+RUN apt-get install -y postgresql
+RUN apt-get install -y postgresql-contrib
+
+# Устанавливаем переменные среды для базы данных
+ENV POSTGRES_USER=rails
+ENV POSTGRES_PASSWORD=rails
+ENV POSTGRES_DB=rails_development
+
+# Запускаем PostgreSQL и создаем базу данных и пользователя
+RUN service postgresql start && \
+    su postgres -c "psql -c \"CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';\"" && \
+    su postgres -c "psql -c \"CREATE DATABASE $POSTGRES_DB OWNER $POSTGRES_USER;\""
+
+
+RUN apt-get install -y bash
+RUN echo 'source /usr/local/rvm/scripts/rvm' >> ~/.bashrc
+# ubuntu install source
+RUN echo "source $HOME/.rvm/scripts/rvm" >> ~/.bash_profile
+
+# reload shell
+RUN exec $SHELL
+RUN apt install -y zsh
+
+
+RUN /usr/local/rvm/scripts/rvm install $RUBY_VERSION
+RUN /usr/local/rvm/scripts/rvm use $RUBY_VERSION
+
+# Устанавливаем рабочую директорию для приложения
+WORKDIR /app
+
+# Копируем Gemfile и Gemfile.lock и устанавливаем зависимости Rails
+COPY Gemfile Gemfile.lock ./
+RUN ruby -v
+RUN ruby gem install bundler 
+RUN /usr/local/rvm/scripts/rvmbundle install
+
+# Копируем исходный код приложения
+COPY . .
+
+# Устанавливаем зависимости для фронтенда и компилируем ассеты
+RUN yarn install --check-files
+RUN bundle exec rake assets:precompile
+
+# Открываем порт для Rails-приложения
+EXPOSE 3000
+
+# Запуск всех сервисов и сервера Rails
+CMD service postgresql start && \
+    rm -f tmp/pids/server.pid && \
+    rails db:migrate && \
+    rails server -b 0.0.0.0 -p 3000

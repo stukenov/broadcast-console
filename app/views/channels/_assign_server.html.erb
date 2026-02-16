@@ -1,0 +1,11 @@
+<%= form_with(model: @channel, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :server_id, "Assign Server" %>
+    <%= form.collection_select :server_id, Server.all, :id, :name, prompt: "Select a Server" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Assign" %>
+  </div>
+<% end %>
+

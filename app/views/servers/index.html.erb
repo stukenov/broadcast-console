@@ -1,0 +1,28 @@
+<div><b>Servers</b></div>
+
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @servers.each do |server| %>
+                <tr>
+                    <td><%= server.name %></td>
+                    <td>
+                        <%= link_to "Show", server_path(server) %>
+                        <%= link_to "Destroy", destroy_server_path(server), method: :delete %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+

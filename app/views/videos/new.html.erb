@@ -1,0 +1,111 @@
+<div><b>New Video</b></div>
+
+<div><%= link_to 'Back', videos_path %></div>
+
+<%= form_with url: videos_path, local: false, multipart: true, id: 'upload_form' do |form| %>
+    <div>
+        <%= form.label :files, "Select Videos" %>
+        <%= form.file_field :files, id: 'video_files', multiple: true %>
+    </div>
+    <div id="titles_fields">
+    </div>
+    <div>
+        <%= form.submit "Upload" %>
+    </div>
+<% end %>
+
+<div id="upload_status">
+</div>
+
+<script>
+    document.getElementById('video_files').addEventListener('change', function(event) {
+        var fileInput = event.target;
+        var files = fileInput.files;
+        var titlesContainer = document.getElementById('titles_fields');
+        titlesContainer.innerHTML = '';
+
+        var uploadStatus = document.getElementById('upload_status');
+        uploadStatus.innerHTML = '';
+
+        if (files.length > 0) {
+            Array.from(files).forEach(function(file, index) {
+                var fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
+                var div = document.createElement('div');
+                div.innerHTML = `
+                    <div>
+                        <p>Title for "${file.name}":</p>
+                        <input type="text" name="video[titles][]" id="video_titles_${index}" value="${fileNameWithoutExtension}">
+                        <p>Uploading "${file.name}": <span id="progress_${index}">0%</span></p>
+                        <progress id="progress_bar_${index}" value="0" max="100" style="width: 100%;"></progress>
+                    </div>
+                `;
+                titlesContainer.appendChild(div);
+            });
+        }
+    });
+
+    document.getElementById('upload_form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var fileInput = document.getElementById('video_files');
+        var files = fileInput.files;
+        var titles = document.querySelectorAll('input[name="video[titles][]"]');
+
+        if (files.length === 0) {
+            alert('Please select at least one video file to upload.');
+            return;
+        }
+
+        var completedUploads = 0;
+
+        Array.from(files).forEach(function(file, index) {
+            if (file.size === 0) {
+                completedUploads++;
+                checkAllUploadsCompleted();
+                return;
+            }
+
+            var title = titles[index].value;
+
+            var formData = new FormData();
+            formData.append('video[title]', title);
+            formData.append('video[file]', file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '<%= videos_path %>', true);
+
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+
+            xhr.upload.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    var percentComplete = Math.round((e.loaded / e.total) * 100);
+                    document.getElementById(`progress_${index}`).innerText = percentComplete + '%';
+                    document.getElementById(`progress_bar_${index}`).value = percentComplete;
+                }
+            });
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200 || xhr.status === 302) {
+                        document.getElementById(`progress_${index}`).innerText = 'Completed';
+                        document.getElementById(`progress_bar_${index}`).value = 100;
+                    } else {
+                        document.getElementById(`progress_${index}`).innerText = 'Failed';
+                        document.getElementById(`progress_bar_${index}`).value = 0;
+                    }
+                    completedUploads++;
+                    checkAllUploadsCompleted();
+                }
+            };
+
+            xhr.send(formData);
+        });
+
+        function checkAllUploadsCompleted() {
+            if (completedUploads === files.length) {
+                window.location.href = '<%= videos_path %>';
+            }
+        }
+    });
+</script>

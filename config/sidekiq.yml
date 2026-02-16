@@ -1,0 +1,12 @@
+:concurrency: 5
+:log_level: debug
+:gui: true
+:scheduler:
+  :schedule:
+    check_events_job:
+      cron: "* * * * *"
+      class: "CheckEventsJob"
+    schedule_video_playback_job:
+      cron: "* * * * * *"
+      class: "ScheduleVideoPlaybackJob"
+

@@ -1,0 +1,22 @@
+<div>
+    <b>Command Details</b>
+</div>
+
+<div><%= link_to 'Back', commands_path %></div>
+
+<div>
+    <h2>Server: (<%= @command.server_id %>) <%= @server.name %></h2>
+    <h3>Target: <%= @command.target %></h3>
+    <h3>Length: <%= @command.length %></h3>
+    <h3>Command: <%= @command.command %></h3>
+    <h3>Response: <%= @command.response %></h3>
+</div>
+
+<div>
+    <h2>Logs:</h2>
+    <% if @command.logs.present? %>
+        <% @command.logs.each_line do |line| %>
+            <p><%= line %></p>
+        <% end %>
+    <% end %>
+</div>

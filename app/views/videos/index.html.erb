@@ -1,0 +1,28 @@
+<div>
+    <b>Videos <%= link_to 'Upload', new_video_path %></b>
+</div>
+
+
+<% flash.each do |key, message| %>
+    <div>
+        <b><%= message %></b>
+    </div>
+<% end %>
+
+<div>
+    <table>
+        
+        <tbody>
+            <% @videos.each do |video| %>
+                <tr>
+                    <td>
+                        <b><%= link_to video.title, video_path(video) %> </b>
+                        Duration: <%= video.length.present? ? Time.at(video.length).utc.strftime("%H:%M:%S") : 'N/A' %>. 
+                        <%= link_to 'Edit Video', edit_video_path(video) %>
+                    </td>
+                    <td><%= button_to 'x', destroy_video_path(video), method: :delete %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

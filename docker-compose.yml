@@ -1,0 +1,70 @@
+version: '3.9'
+
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - SECRET_KEY_BASE=0b77b9c33b2a97c2f9c4e3e2922e39f91...
+      - RAILS_ENV=production
+      - DATABASE_URL=postgresql://postgres:password@db:5432/adapto_production
+      - REDIS_URL=redis://redis:6379/0
+    command: bash -c "bundle exec rails db:prepare && bundle exec rails s -b '0.0.0.0'"
+    depends_on:
+      - db
+      - ffmpeg
+    volumes:
+      - storage:/storage  # Общий volume для видеофайлов
+    networks:
+      - web
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: adapto_production
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - web
+
+  ffmpeg:
+    image: jrottenberg/ffmpeg:latest
+    volumes:
+      - storage:/storage  # Общий volume для видеофайлов
+    networks:
+      - web
+
+  ffprobe:
+    image: kartaltabak/ffprobe
+    volumes:
+      - storage:/storage  # Общий volume для видеофайлов
+    networks:
+      - web
+
+  caddy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
+  storage:  # Volume для хранения видеофайлов
+
+networks:
+  web:

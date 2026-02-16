@@ -1,0 +1,19 @@
+<div><b>Licence Details</b></div>
+
+<div><%= link_to "Back", licences_path %> | <%= link_to "Edit", edit_licence_path(@licence) %></div>
+
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<div>
+    <p>Key: <%= @licence.key %></p>
+    <p>Status: <%= @licence.status %></p>
+</div>
+
+<div>
+    <%# reference to the servers that are using this licence %>
+    <% @servers.each do |server| %>
+        <p><%= link_to server.name, server_path(server) %></p>
+    <% end %>
+</div>

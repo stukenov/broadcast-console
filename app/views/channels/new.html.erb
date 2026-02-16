@@ -1,0 +1,16 @@
+<div>
+  <b>New Channel</b>
+</div>
+
+<div>
+  <%= link_to 'Back', channels_path %>
+</div>
+
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<div>
+  <%= render "form", channel: @channel %>
+</div>
+

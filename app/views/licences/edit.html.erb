@@ -1,0 +1,19 @@
+<div><b>Edit Licence</b></div>
+
+<div><%= link_to 'Back', licences_path %></div>
+
+<%= form_with(model: @licence, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :key %>
+    <%= form.text_field :key, id: "licence_key", autocomplete: "on", value: @licence.key %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status, value: @licence.status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Update Licence" %>
+  </div>
+<% end %>

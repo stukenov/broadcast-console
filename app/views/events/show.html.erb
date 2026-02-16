@@ -1,0 +1,5 @@
+<div><b>Event</b> <%= @event.name %></div>
+
+<div><%= link_to 'Back', channel_events_path(@event.channel) %></div>
+<div>Start Time: <%= @event.start_time %></div>
+<div>Channel: <%= @event.channel.name %></div>

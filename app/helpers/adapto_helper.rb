@@ -1,0 +1,2 @@
+module AdaptoHelper
+end

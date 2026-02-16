@@ -1,0 +1,11 @@
+<div class="flex gap-4 text-md font-bold ">
+  <% if current_user %>
+  <%= link_to 'Главная', root_path, class: "py-2 px-4 hover:rounded hover:bg-gray-100 hover:text-blue-800" %>
+  <%= link_to 'Контент', videos_path, class: "py-2 px-4 hover:rounded hover:bg-gray-100 hover:text-blue-800" %>
+  <%= link_to 'Расписание', channels_events_path, class: "py-2 px-4 hover:rounded hover:bg-gray-100 hover:text-blue-800" %>
+  <%= link_to 'Чат', chats_path, class: "py-2 px-4 hover:rounded hover:bg-gray-100 hover:text-blue-800" %>
+  <%= link_to 'Настройки', management_path, class: "py-2 px-4 hover:rounded hover:bg-gray-100 hover:text-blue-800" %>
+  <%= link_to 'Профиль', chats_path, class: "py-2 px-4 hover:rounded hover:bg-gray-100 hover:text-blue-800" %>
+  <%= link_to 'Поиск', chats_path, class: "py-2 px-4 hover:rounded hover:bg-gray-100 hover:text-blue-800" %>
+  <% end %>
+</div>

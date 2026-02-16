@@ -1,0 +1,36 @@
+<div><b>Commands</b></div>
+
+<div><%= link_to 'New', new_command_path %></div>
+
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<div>
+    <table>
+        <tr>
+        <th>ID</th>
+        <th>Created</th>
+        <th>Target</th>
+        <th>Length</th>
+        <th>Command</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    <% @commands.each do |command| %>
+        <tr>
+            <td><%= command.id %></td>
+            <td><%= command.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+            <td><%= command.target %></td>
+            <td><%= command.length %></td>
+            <td><%= command.command %></td>
+            <td><%= command.status %></td>
+            <td>
+
+                <%= link_to 'Show', command_path(command) %>
+                <%= link_to 'Destroy', command_path(command), method: :delete, data: { confirm: 'Are you sure?' } %>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+</div>

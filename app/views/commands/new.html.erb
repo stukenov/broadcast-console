@@ -1,0 +1,8 @@
+<div><b>New Command</b></div> 
+
+<div><%= link_to 'Back', commands_path %></div>
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<%= render "form", command: @command %>

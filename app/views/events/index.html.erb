@@ -1,0 +1,18 @@
+<div>
+    <b>Events</b>
+</div>
+
+<% flash.each do |key, message| %>
+    <div>
+        <b><%= message %></b>
+    </div>
+<% end %>
+
+<div>
+    Select a channel to see events
+    <% @channels.each do |channel| %>
+        <div>
+            <%= link_to channel.name, channel_events_path(channel) %>
+        </div>
+    <% end %>
+</div>

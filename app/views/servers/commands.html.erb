@@ -1,0 +1,19 @@
+
+<div>
+    <b><%= @server.name %> Commands</b>
+</div>
+<div>
+    <%= link_to "Back", server_path(@server) %> | 
+    <%= link_to "Overview", server_path(@server) %> | 
+    <%= link_to "Commands", server_commands_path(@server) %>
+</div>
+
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<div>
+    <%= @commands.each do |command| %>
+        <p><%= command.command %></p>
+    <% end %>
+</div>

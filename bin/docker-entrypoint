@@ -1,0 +1,21 @@
+#!/bin/bash -e
+
+# If running the rails server then create or migrate existing database
+if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
+  if ! ./bin/rails db:prepare; then
+    echo "Error: Failed to prepare the database"
+    exit 1
+  fi
+
+  if ! ./bin/rails db:migrate; then
+    echo "Error: Failed to migrate the database"
+    exit 1
+  fi
+
+  if ! ./bin/rails db:seed; then
+    echo "Error: Failed to seed the database"
+    exit 1
+  fi
+fi
+
+exec "${@}"

@@ -1,0 +1,10 @@
+<div>Create new user</div>
+
+<%= form_with model: @user, url: users_path, method: :post do |form| %>
+  <%= form.label :username %>
+  <%= form.text_field :username %>
+  <%= form.label :password %>
+  <%= form.password_field :password %>
+  <%= form.submit "Create" %>
+<% end %>
+

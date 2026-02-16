@@ -1,0 +1,23 @@
+<div>
+  <b>Channel: <%= @channel.name %></b>
+</div>
+
+<div>
+  <%= link_to 'Back', channels_path %> | <%= link_to 'Edit', edit_channel_path(@channel) %> | <%= link_to 'Delete', channel_path(@channel), method: :delete, data: { turbo: true, confirm: 'Are you sure?' } %>
+</div>
+
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<div>
+  <h1><%= @channel.name %></h1>
+</div>
+
+<div>
+  <% if @channel.server_id.nil? %>
+    <%= render partial: "assign_server", locals: { channel: @channel, servers: @servers } %>
+  <% else %>
+    Assigned to <%= link_to @server.name, server_path(@server) %>
+  <% end %>
+</div>

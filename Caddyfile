@@ -1,0 +1,17 @@
+adapto.daitsuna.local {
+    tls internal
+    reverse_proxy rails:3000
+}
+
+www.adapto.daitsuna.local {
+    tls internal
+    reverse_proxy rails:3000
+}
+
+adapto.daitsuna.com {
+    reverse_proxy rails:3000
+}
+
+www.adapto.daitsuna.com {
+    reverse_proxy rails:3000
+}

@@ -1,0 +1,25 @@
+<div data-controller="videoplayer">
+    <div><b><%= @video.title %></b></div>
+    
+    <div><%= link_to 'Edit', edit_video_path(@video) %> 
+        | <%= link_to 'Delete', video_path(@video), method: :delete %>
+        | <%= link_to 'Download', download_video_path(@video) %>
+    </div>
+    
+    <% flash.each do |key, message| %>
+        <div><i><%= message %></i></div>
+    <% end %>
+    
+    <div>
+        <button data-action="click->videoplayer#play" id="play-button">Play</button>
+        <button data-action="click->videoplayer#pause" id="pause-button">Pause</button>
+        <button data-action="click->videoplayer#stop" id="stop-button">Stop</button>
+    </div>
+    <div id="video-progress">
+        Duration: <span id="video-duration"></span>
+        <div id="video-progress-bar" style="width: 0%; height: 10px; background-color: #4caf50;"></div>
+    </div>
+    <div>
+        <%= video_tag play_video_path(@video), id: "video-player-#{@video.id}", width: 640, height: 480, controls: false, type: @video.file.content_type %>
+    </div>
+</div>

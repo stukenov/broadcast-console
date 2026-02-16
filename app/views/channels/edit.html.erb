@@ -1,0 +1,16 @@
+<div>
+    <b>Edit Channel</b>
+</div>
+
+<div>
+    <%= link_to 'Back', channels_path %>
+</div>
+
+<div>
+
+    <%= render partial: "form", locals: { channel: @channel } %>
+</div>
+
+<div>
+    <%= render partial: "assign_server", locals: { channel: @channel, servers: @servers } %>
+</div>

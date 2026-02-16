@@ -1,0 +1,48 @@
+<div><b>Licences</b></div>
+
+<div><button onclick="generateLicence()">Generate</button></div>
+
+<% flash.each do |key, message| %>
+    <div><i><%= message %></i></div>
+<% end %>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <% @licences.each do |licence| %>
+                <tr>
+                    <td><%= licence.key %></td>
+                    <td><%= licence.status %></td>
+                    <td>
+                        <%= link_to "Show", licence_path(licence) %>
+                        <%= link_to "Edit", edit_licence_path(licence) %>
+                        <%= link_to "Delete", destroy_licence_path(licence), method: :delete, data: { confirm: "Are you sure?" } %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    function generateLicence() {
+        fetch("<%= generate_licence_path %>", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '<%= form_authenticity_token %>'
+            }
+        }).then(() => {
+            window.location.reload();
+        });
+    }
+</script>
