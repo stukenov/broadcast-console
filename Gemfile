@@ -22,7 +22,7 @@ gem "stimulus-rails"
 
 gem "jbuilder"
 
-gem "redis", "5.4.1"
+gem "redis", "6.0.0"
 
 gem "bcrypt", "~> 3.1.22"
 
