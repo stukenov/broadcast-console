@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "3.2.3"
 
-gem "rails", "~> 8.1.3"
+gem "rails", "~> 8.1.4"
 
 gem "sprockets-rails"
 
@@ -22,7 +22,7 @@ gem "stimulus-rails"
 
 gem "jbuilder"
 
-gem "redis", "5.4.1"
+gem "redis", "6.0.0"
 
 gem "bcrypt", "~> 3.1.22"
 
@@ -30,7 +30,7 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 
 gem "bootsnap", require: false
 
-gem "image_processing", "~> 2.0"
+gem "image_processing", "~> 2.2"
 
 group :development, :test do
   gem "debug", platforms: %i[mri windows]
